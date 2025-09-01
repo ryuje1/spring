@@ -36,7 +36,7 @@ public class MemberController {
 	//ajax -> json데이터 전송
 	@ResponseBody	// 여기만 데이터로 전송
 	@PostMapping("/member/idBtn")	//중복 id 확인
-	public String idBtn(Member m) {
+	public Member idBtn(Member m) {
 		System.out.println("controller id : "+m.getId());
 		// findById(m.getId()) -> service, serviceImpl, repository
 		Member member = memberService.findById(m.getId());
@@ -47,7 +47,11 @@ public class MemberController {
 		}else {
 			flag = "1";		// 아이디 사용가능 - 동일 아이디 없음
 		}
-		return flag;
+		
+		//json 방법 : 직접 json형태로 가공해서 전송
+		//객체를 전송하면 자동으로 json 형태로 변환되어 전송
+		
+		return member;
 	}
 	
 	@GetMapping("/member/logout")	//로그아웃
