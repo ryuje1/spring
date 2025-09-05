@@ -106,6 +106,27 @@ public class CustomerServiceImpl implements CustomerService {
 		
 	}
 
+
+	@Override // 게시글 검색 - 제목
+	public Page<Board> findByBtitleContaining(String search, Pageable pageable) {
+		Page<Board> pageList = customerRepository.findByBtitleContaining(search, pageable);
+		return pageList;
+	}
+
+
+	@Override // 게시글 검색 - 내용
+	public Page<Board> findByBcontentContaining(String search, Pageable pageable) {
+		Page<Board> pageList = customerRepository.findByBcontentContaining(search, pageable);
+		return pageList;
+	}
+
+
+	@Override // 게시글 검색 - 제목, 내용
+	public Page<Board> findByBtitleContainingOrBcontentContaining(String search, String search2, Pageable pageable) {
+		Page<Board> pageList = customerRepository.findByBtitleContainingOrBcontentContaining(search, search, pageable);
+		return pageList;
+	}
+
 	
 
 }

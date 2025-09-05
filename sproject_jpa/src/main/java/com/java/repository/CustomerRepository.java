@@ -1,5 +1,7 @@
 package com.java.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +13,15 @@ import com.java.dto.Member;
 
 //@Repository //생략가능 <Board,Integer> <리턴객체타입,객체Primary Key>
 public interface CustomerRepository extends JpaRepository<Board, Integer> {
+	
+	//게시글 검색 - 제목
+	Page<Board> findByBtitleContaining(String search, Pageable pageable);
+	
+	//게시글 검색 - 내용
+	Page<Board> findByBcontentContaining(String search, Pageable pageable);
+	
+	//게시글 검색 - 제목, 내용
+	Page<Board> findByBtitleContainingOrBcontentContaining(String search, String search2, Pageable pageable);
 
 	//게시글1개 가져오기
 	Object findByBno(int bno);
@@ -40,8 +51,5 @@ public interface CustomerRepository extends JpaRepository<Board, Integer> {
 			+ "select bno,lead(bno,1,-1) over(order by bgroup desc,bstep asc) as preBno from board\r\n"
 			+ ") a where bno = :bno )", nativeQuery = true)
 	Board findNextBoard(@Param("bno") int bno);
-
-
-	
 	
 }

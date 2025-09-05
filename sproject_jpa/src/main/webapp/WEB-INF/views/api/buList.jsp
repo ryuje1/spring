@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../layout/header.jsp" %>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 	if("${flag}" == "-1") alert("게시글이 삭제 되었습니다.");
 	if("${flag}" == "1") alert("게시글이 등록 되었습니다.");
@@ -35,44 +36,29 @@
 			<!-- contents -->
 			<div id="contents">
 				<div id="customer">
-					<h2><strong>NOTICE</strong><span>쟈뎅샵 소식을 전해드립니다.</span></h2>
+					<h2><strong>공공데이터</strong><span>쟈뎅샵 소식을 전해드립니다.</span></h2>
 					
 					<div class="orderDivMt">
 						<table summary="NO, 제목, 등록일, 조회수 순으로 공지사항을 조회 하실수 있습니다." class="orderTable2" border="1" cellspacing="0">
 							<caption>공지사항 보기</caption>
 							<colgroup>
 							<col width="10%" class="tnone" />
-							<col width="*" />
-							<col width="14%" class="tw25" />
-							<col width="14%" class="tw25" />
-							<col width="14%" class="tnone" />
+							<col width="20%" />
+							<col width="18%" class="tw25" />
+							<col width="10%" class="tw25" />
+							<col width="25%" class="tnone" />
+							<col width="*" class="tnone" />
 							</colgroup>
 							<thead>
 								<th scope="col" class="tnone">NO.</th>
-								<th scope="col">제목</th>
-								<th scope="col">작성자</th>
-								<th scope="col">작성일</th>
-								<th scope="col" class="tnone">조회수</th>
+								<th scope="col">사진제목</th>
+								<th scope="col">촬영작가</th>
+								<th scope="col">촬영날짜</th>
+								<th scope="col" class="tnone">촬영지</th>
+								<th scope="col" class="tnone">사진</th>
 							</thead>
-							<tbody>
-								<c:forEach var="board" items="${list}">
-								<tr>
-									<td class="tnone">${board.bno}</td>
-									<td class="left">
-										<a href="/customer/view?bno=${board.bno}">
-										<c:forEach var="j" begin="1" end="${board.bindent}">▶</c:forEach>
-										${board.btitle}
-										</a>
-										<img src="/images/ico/ico_new.gif" alt="NEW" />
-									</td>
-									<td>${board.member.name }</td>
-									<td>
-									  <fmt:formatDate value="${board.bdate}" pattern="yyyy-MM-dd"/>
-									</td>
-									<td class="tnone right">${board.bhit}</td>
-								</tr>
-								</c:forEach>
-
+							<tbody id="tbody">
+								<!-- api 리스트 출력 -->
 							</tbody>
 						</table>
 					</div>
@@ -135,7 +121,7 @@
 					<div class="searchWrap">
 						<div class="search">
 							<ul>
-								<form action="/customer/search" name="searchFrm">
+								<form action="/customer/search" name="searchInput">
 								<li class="web"><img src="/images/txt/txt_search.gif" alt="search" /></li>
 								<li class="se">
 									<select name="category">
@@ -167,5 +153,45 @@
 		</div>
 	</div>
 	<!-- //container -->
+	
+	<!--  공공데이터 api 가져오기 -->
+	<script>
+		$.ajax({
+			url:"/api/api2",
+			method:"get",
+			data:{"page":"1"},
+			dataType:"json",
+			success:function(data){
+				alert("공공데이터 부동산 api를 가져옵니다.");
+				console.log(data);
+				console.log("---------------");
+				console.log(data.response.body.items);
+				console.log("---------------");
+				console.log(data.response.body.items.item[0]);
+				var dhtml = ``;
+				var apiList = data.response.body.items.item;	//item까지 해야 출력이 됨
+				for(var i=0; i<apiList.length; i++){
+					dhtml += `
+						<tr>
+							<td class="tnone">`+apiList[i].basDt+`</td>
+							<td class="left">`+apiList[i].srtnCd+`</td>
+							<td>`+apiList[i].isinCd+`</td>
+							<td>`+apiList[i].itmsNm+`</td>
+							<td class="tnone right">`+apiList[i].mrktCtg+`</td>
+							<td>`+apiList[i].clpr+`</td>							
+						</tr>
+					`;
+				}//for
+				
+				$("#tbody").html(dhtml);
+				
+				
+			},
+			error:function(){
+				alert("실패");
+			}
+		});
+	</script>
+
 
 <%@ include file="../layout/footer.jsp" %>
