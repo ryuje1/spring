@@ -78,7 +78,7 @@
 										<th scope="row"><span>이미지</span></th>
 										<td>
 											<c:if test="${board.bfile !=null }">
-											  <img src="/upload/${board.bfile}" width="200px">
+											  <img src="${board.bfile}" width="200px">
 											</c:if>
 											<c:if test="${board.bfile ==null }">
 											  해당 이미지가 없습니다.

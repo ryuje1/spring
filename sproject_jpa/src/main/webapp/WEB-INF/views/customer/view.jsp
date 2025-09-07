@@ -71,7 +71,7 @@
 						</div>
 						<c:if test="${board.bfile != null }">
 						<div class="viewContents">
-							<img src="/upload/${board.bfile}" width="50%" >
+							<img src="${board.bfile}" width="50%" >
 						</div>
 						</c:if>
 					</div>

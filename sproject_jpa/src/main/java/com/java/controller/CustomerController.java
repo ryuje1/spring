@@ -97,11 +97,11 @@ public class CustomerController {
 			String originFileName = file.getOriginalFilename();
 			long time = System.currentTimeMillis();
 			String uploadFileName = String.format("%d_%s", time,originFileName);
-			String fileUrl = "c:/upload/";
+			String fileUrl = "/Users/ryujaeeun/Downloads/upload/";
 	    	File f = new File(fileUrl+uploadFileName);
 	    	//파일업로드 진행 - 예외처리
 			file.transferTo(f);
-			b.setBfile(uploadFileName); // 파일이름을 Board저장
+			b.setBfile("/upload/" + uploadFileName); // 파일이름을 Board저장
 		}
 		
 		// bno -> bno번호없음, bgroup, bstep,bindent -> 부모의 값을 그대로 가지고 있음.
@@ -138,11 +138,11 @@ public class CustomerController {
 			String originFileName = file.getOriginalFilename();
 			long time = System.currentTimeMillis();
 			String uploadFileName = String.format("%d_%s", time,originFileName);
-			String fileUrl = "c:/upload/";
+			String fileUrl = "/Users/ryujaeeun/Downloads/upload/";
 	    	File f = new File(fileUrl+uploadFileName);
 	    	//파일업로드 진행
 			file.transferTo(f);
-			board.setBfile(uploadFileName); // 파일이름을 Board저장
+			board.setBfile("/upload/" + uploadFileName); // 파일이름을 Board저장
 			// 파일이름 중복방지방법
 			//UUID uuid = UUID.randomUUID(); //487297927495728945729847592
 			//String uploadFileName = String.format("%s_%s", uuid,originFileName);
@@ -179,12 +179,12 @@ public class CustomerController {
 	    	
 	    	// 39871398741937413_1.jpg
 	    	// 파일저장 위치
-	    	String fileUrl = "c:/upload/";
+	    	String fileUrl = "/Users/ryujaeeun/Downloads/upload/";
 	    	File f = new File(fileUrl+uploadFileName);
 	    	//파일업로드 진행
 	    	try {
 				file.transferTo(f);
-				b.setBfile(uploadFileName); // 파일이름을 Board저장
+				b.setBfile("/upload/" + uploadFileName); // 파일이름을 Board저장
 			} catch (Exception e) {e.printStackTrace();}
 	    }
 	    // 게시글 저장 
